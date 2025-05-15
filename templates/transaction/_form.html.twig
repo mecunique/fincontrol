@@ -1,0 +1,27 @@
+{{ form_start(form) }}
+
+<div class="mb-3">
+    {{ form_label(form.amount, 'Montant') }}
+    {{ form_widget(form.amount, {'attr': {'class': 'form-control'}}) }}
+</div>
+
+<div class="mb-3">
+    {{ form_label(form.date, 'Date') }}
+    {{ form_widget(form.date, {'attr': {'class': 'form-control'}}) }}
+</div>
+
+<div class="mb-3">
+    {{ form_label(form.description, 'Description') }}
+    {{ form_widget(form.description, {'attr': {'class': 'form-control'}}) }}
+</div>
+
+<div class="mb-3">
+    {{ form_label(form.category, 'Catégorie') }}
+    {{ form_widget(form.category, {'attr': {'class': 'form-select'}}) }}
+</div>
+
+<button class="btn btn-success mt-3">
+    {{ button_label|default('💾 Enregistrer') }}
+</button>
+
+{{ form_end(form) }}

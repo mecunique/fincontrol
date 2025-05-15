@@ -1,0 +1,72 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Tableau de bord{% endblock %}
+
+{% block body %}
+    <div class="container mt-5">
+        <h1 class="mb-4">Bonjour, {{ app.user ? app.user.username : 'Utilisateur' }} </h1>
+
+        <div class="row mb-4">
+            <div class="col-md-4">
+                <div class="card text-bg-success">
+                    <div class="card-body">
+                        <h5 class="card-title">Revenus</h5>
+                        <p class="card-text fs-3">{{ income|number_format(2, ',', ' ') }} €</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card text-bg-danger">
+                    <div class="card-body">
+                        <h5 class="card-title">Dépenses</h5>
+                        <p class="card-text fs-3">{{ expense|number_format(2, ',', ' ') }} €</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card text-bg-primary">
+                    <div class="card-body">
+                        <h5 class="card-title">Solde</h5>
+                        <p class="card-text fs-3">{{ balance|number_format(2, ',', ' ') }} €</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="text-end mb-4">
+            <a href="{{ path('app_transaction_new') }}" class="btn btn-outline-primary btn-lg">
+                ➕ Ajouter une transaction
+            </a>
+        </div>
+
+        <div class="card p-4 mb-5">
+            <h5 class="mb-3">Aperçu du mois</h5>
+            <canvas id="financeChart"></canvas>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const ctx = document.getElementById('financeChart').getContext('2d');
+            new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['Revenus', 'Dépenses'],
+                    datasets: [{
+                        label: 'Résumé du mois',
+                        data: [{{ income }}, {{ expense }}],
+                        backgroundColor: ['#198754', '#dc3545'],
+                        borderColor: ['#145c32', '#92252e'],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    scales: {
+                        y: { beginAtZero: true }
+                    }
+                }
+            });
+        });
+    </script>
+{% endblock %}

@@ -1,0 +1,55 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Détails de la transaction{% endblock %}
+
+{% block body %}
+    <div class="container mt-5">
+
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h2 class="fw-bold">📄 Détails de la transaction</h2>
+            <a href="{{ path('app_transaction_index') }}" class="btn btn-secondary">
+                ← Retour à la liste
+            </a>
+        </div>
+
+        <div class="card shadow">
+            <div class="card-body">
+                <table class="table table-bordered align-middle mb-0">
+                    <tbody>
+                    <tr>
+                        <th scope="row">Montant</th>
+                        <td>
+                            {% if transaction.category.type == 'income' %}
+                                <span class="text-success fw-bold">+{{ transaction.amount }} €</span>
+                            {% else %}
+                                <span class="text-danger fw-bold">-{{ transaction.amount }} €</span>
+                            {% endif %}
+                        </td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Date</th>
+                        <td>{{ transaction.date ? transaction.date|date('d/m/Y H:i') : '—' }}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Description</th>
+                        <td>{{ transaction.description ?: '—' }}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Catégorie</th>
+                        <td>{{ transaction.category.name }}</td>
+                    </tr>
+                    </tbody>
+                </table>
+
+                <div class="mt-4 d-flex justify-content-between">
+                    <a href="{{ path('app_transaction_edit', {'id': transaction.id}) }}" class="btn btn-warning">
+                        ✏️ Modifier
+                    </a>
+
+                    {{ include('transaction/_delete_form.html.twig') }}
+                </div>
+            </div>
+        </div>
+
+    </div>
+{% endblock %}
