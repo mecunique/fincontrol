@@ -4,7 +4,41 @@
 
 {% block body %}
     <div class="container mt-5">
-        <h1 class="mb-4">Bonjour, {{ app.user ? app.user.username : 'Utilisateur' }} </h1>
+        <h1 class="mb-4">Bonjour, {{ app.user ? app.user.username : 'Utilisateur' }}</h1>
+
+        <form method="get" class="row g-2 align-items-center mb-4">
+            <div class="col-auto">
+                <label for="month" class="col-form-label">Mois :</label>
+            </div>
+            <div class="col-auto">
+                <select id="month" name="month" class="form-select">
+                    {% set months = {
+                        1: 'Janvier', 2: 'Février', 3: 'Mars', 4: 'Avril',
+                        5: 'Mai', 6: 'Juin', 7: 'Juillet', 8: 'Août',
+                        9: 'Septembre', 10: 'Octobre', 11: 'Novembre', 12: 'Décembre'
+                    } %}
+                    {% for num, name in months %}
+                        <option value="{{ num }}" {% if num == month %}selected{% endif %}>{{ name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="col-auto">
+                <label for="year" class="col-form-label">Année :</label>
+            </div>
+            <div class="col-auto">
+                <select id="year" name="year" class="form-select">
+                    {% for y in ("now"|date('Y') - 5)..("now"|date('Y') + 1) %}
+                        <option value="{{ y }}" {% if y == year %}selected{% endif %}>{{ y }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="col-auto">
+                <button type="submit" class="btn btn-outline-secondary">📊 Afficher</button>
+                <a href="{{ path('app_dashboard_pdf', { month: month, year: year }) }}" class="btn btn-outline-dark ms-2">📄 Exporter PDF</a>
+            </div>
+        </form>
 
         <div class="row mb-4">
             <div class="col-md-4">
@@ -31,12 +65,6 @@
                     </div>
                 </div>
             </div>
-        </div>
-
-        <div class="text-end mb-4">
-            <a href="{{ path('app_transaction_new') }}" class="btn btn-outline-primary btn-lg">
-                ➕ Ajouter une transaction
-            </a>
         </div>
 
         <div class="card p-4 mb-5">
