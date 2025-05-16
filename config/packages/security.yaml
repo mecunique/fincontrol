@@ -16,14 +16,24 @@ security:
         main:
             lazy: true
             provider: app_user_provider
+
             form_login:
                 login_path: app_login
                 check_path: app_login
                 enable_csrf: true
                 default_target_path: app_dashboard
+                remember_me: true  # ← важно, активирует поддержку чекбокса
+
             logout:
                 path: app_logout
                 target: app_login
+
+            remember_me:           # ← добавляем этот блок
+                secret: '%kernel.secret%'     # используем секрет приложения
+                lifetime: 604800              # срок действия токена (в секундах) — 7 дней
+                path: /                       # путь, к которому относится
+                name: REMEMBERME              # имя куки
+                secure: false                 # true на HTTPS, false для dev
 
     access_control:
         - { path: ^/dashboard, roles: ROLE_USER }

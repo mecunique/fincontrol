@@ -17,14 +17,14 @@ class Transaction
     #[ORM\Column]
     private ?float $amount = null;
 
-    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
+    #[ORM\Column]
     private ?\DateTime $date = null;
+
+    #[ORM\Column(length: 64)]
+    private ?string $timezone = null;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $description = null;
-
-    #[ORM\Column(length: 64)]
-    private string $timezone = 'Europe/Paris';
 
     #[ORM\ManyToOne(inversedBy: 'transactions')]
     #[ORM\JoinColumn(nullable: false)]
@@ -94,7 +94,7 @@ class Transaction
         return $this;
     }
 
-    public function getTimezone(): string
+    public function getTimezone(): ?string
     {
         return $this->timezone;
     }
@@ -107,8 +107,8 @@ class Transaction
 
     public function getDateInTimezone(): ?\DateTime
     {
-        if (!$this->date) {
-            return null;
+        if (!$this->date || !$this->timezone) {
+            return $this->date;
         }
 
         $date = clone $this->date;

@@ -1,14 +1,52 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Регистрация{% endblock %}
+{% block title %}Inscription{% endblock %}
 
 {% block body %}
-    <h2>Регистрация</h2>
+    <div class="container mt-5" style="max-width: 550px;">
+        <div class="card shadow-sm">
+            <div class="card-body">
+                <h2 class="text-center mb-4">Inscription</h2>
 
-    {{ form_start(form) }}
-    {{ form_row(form.username) }}
-    {{ form_row(form.email) }}
-    {{ form_row(form.plainPassword) }}
-    <button class="btn btn-primary mt-3">Создать аккаунт</button>
-    {{ form_end(form) }}
+                {{ form_start(form) }}
+
+                <div class="mb-3">
+                    {{ form_label(form.username, 'Nom d\'utilisateur') }}
+                    {{ form_widget(form.username, {'attr': {'class': 'form-control'}}) }}
+                    {{ form_errors(form.username) }}
+                </div>
+
+                <div class="mb-3">
+                    {{ form_label(form.email, 'Adresse e-mail') }}
+                    {{ form_widget(form.email, {'attr': {'class': 'form-control'}}) }}
+                    {{ form_errors(form.email) }}
+                </div>
+
+                <div class="mb-3">
+                    {{ form_label(form.plainPassword.first, 'Mot de passe') }}
+                    {{ form_widget(form.plainPassword.first, {'attr': {'class': 'form-control'}}) }}
+                    {{ form_errors(form.plainPassword.first) }}
+                </div>
+
+                <div class="mb-3">
+                    {{ form_label(form.plainPassword.second, 'Confirmez le mot de passe') }}
+                    {{ form_widget(form.plainPassword.second, {'attr': {'class': 'form-control'}}) }}
+                    {{ form_errors(form.plainPassword.second) }}
+                </div>
+
+                <div class="d-grid">
+                    <button class="btn btn-success mt-2">Créer un compte</button>
+                </div>
+
+                {{ form_end(form) }}
+
+                <hr class="my-4">
+
+                <div class="text-center">
+                    <p class="mb-1">Vous avez déjà un compte ?</p>
+                    <a href="{{ path('app_login') }}" class="btn btn-outline-secondary">Se connecter</a>
+                </div>
+            </div>
+        </div>
+    </div>
 {% endblock %}

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Résumé Financier - {{ month }}/{{ year }}</title>
+    <style>
+        body { font-family: DejaVu Sans, sans-serif; }
+        h1 { text-align: center; margin-bottom: 30px; }
+        table { width: 100%; border-collapse: collapse; }
+        th, td { border: 1px solid #ccc; padding: 8px; }
+        th { background-color: #f5f5f5; }
+    </style>
+</head>
+<body>
+<h1>Résumé Financier - {{ month }}/{{ year }}</h1>
+<p><strong>Revenus :</strong> {{ income|number_format(2, ',', ' ') }} €</p>
+<p><strong>Dépenses :</strong> {{ expense|number_format(2, ',', ' ') }} €</p>
+<p><strong>Solde :</strong> {{ balance|number_format(2, ',', ' ') }} €</p>
+
+<h2>Transactions</h2>
+<table>
+    <thead>
+    <tr>
+        <th>Date</th>
+        <th>Montant</th>
+        <th>Description</th>
+        <th>Catégorie</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for transaction in transactions %}
+        <tr>
+            <td>{{ transaction.date|date('d/m/Y H:i') }}</td>
+            <td>
+                {% if transaction.category.type == 'income' %}
+                    +{{ transaction.amount|number_format(2, ',', ' ') }} €
+                {% else %}
+                    -{{ transaction.amount|number_format(2, ',', ' ') }} €
+                {% endif %}
+            </td>
+            <td>{{ transaction.description ?: '—' }}</td>
+            <td>{{ transaction.category.name }}</td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+</body>
+</html>
