@@ -20,9 +20,8 @@ final class Version20250516093529 extends AbstractMigration
     public function up(Schema $schema): void
     {
         // this up() migration is auto-generated, please modify it to your needs
-        $this->addSql(<<<'SQL'
-            ALTER TABLE transaction ADD timezone VARCHAR(64) NOT NULL
-        SQL);
+        $this->addSql("ALTER TABLE transaction ADD timezone VARCHAR(64) NOT NULL DEFAULT 'Europe/Paris'");
+
     }
 
     public function down(Schema $schema): void
