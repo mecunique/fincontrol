@@ -21,7 +21,7 @@ final class TransactionController extends AbstractController
 
         $transactions = $transactionRepository->findBy(
             ['user' => $user],
-            ['date' => 'DESC'] // <-- вот здесь правильно
+            ['date' => 'DESC']
         );
 
         return $this->render('transaction/index.html.twig', [
@@ -33,6 +33,13 @@ final class TransactionController extends AbstractController
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
         $transaction = new Transaction();
+
+        // Définir la date et le fuseau avant que le formulaire ne soit soumis
+        if ($request->isMethod('GET')) {
+            $transaction->setDate(new \DateTime('now'));
+            $transaction->setTimezone('Europe/Paris'); // ou détecté dynamiquement
+        }
+
         $form = $this->createForm(TransactionForm::class, $transaction, [
             'user' => $this->getUser(),
         ]);

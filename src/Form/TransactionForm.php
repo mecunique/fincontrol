@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Form;
 
 use App\Entity\Category;
@@ -6,6 +7,7 @@ use App\Entity\Transaction;
 use App\Entity\User;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Doctrine\ORM\EntityRepository;
@@ -20,6 +22,15 @@ class TransactionForm extends AbstractType
         $builder
             ->add('amount')
             ->add('date')
+            ->add('timezone', ChoiceType::class, [
+                'choices' => array_combine(
+                    \DateTimeZone::listIdentifiers(),
+                    \DateTimeZone::listIdentifiers()
+                ),
+                'placeholder' => 'Choisissez un fuseau horaire',
+                'required' => true,
+                'label' => 'Fuseau horaire',
+            ])
             ->add('description')
             ->add('category', EntityType::class, [
                 'class' => Category::class,
@@ -29,7 +40,7 @@ class TransactionForm extends AbstractType
                         ->where('c.user = :user')
                         ->setParameter('user', $user);
                 },
-                'placeholder' => 'Choisissez une categories',
+                'placeholder' => 'Choisissez une catégorie',
             ]);
     }
 
