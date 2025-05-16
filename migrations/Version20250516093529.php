@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20250514094732 extends AbstractMigration
+final class Version20250516093529 extends AbstractMigration
 {
     public function getDescription(): string
     {
@@ -21,10 +21,7 @@ final class Version20250514094732 extends AbstractMigration
     {
         // this up() migration is auto-generated, please modify it to your needs
         $this->addSql(<<<'SQL'
-            ALTER TABLE "user" ADD email VARCHAR(180) NOT NULL
-        SQL);
-        $this->addSql(<<<'SQL'
-            CREATE UNIQUE INDEX UNIQ_8D93D649E7927C74 ON "user" (email)
+            ALTER TABLE transaction ADD timezone VARCHAR(64) NOT NULL
         SQL);
     }
 
@@ -35,10 +32,7 @@ final class Version20250514094732 extends AbstractMigration
             CREATE SCHEMA public
         SQL);
         $this->addSql(<<<'SQL'
-            DROP INDEX UNIQ_8D93D649E7927C74
-        SQL);
-        $this->addSql(<<<'SQL'
-            ALTER TABLE "user" DROP email
+            ALTER TABLE transaction DROP timezone
         SQL);
     }
 }
